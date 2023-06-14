@@ -77,10 +77,58 @@ function handleLoadMoreClick() {
 loadRecipes()
   .then(() => {
     generateRecipeCards(0, visibleRecipes);
-    if (visibleRecipes >= recipes.length) {
+     if (visibleRecipes >= recipes.length) {
       loadMoreButton.style.display = "none"; // Hide the button if all recipes are visible initially
     }
   })
   .catch((error) => console.error(error));
 
+
 loadMoreButton.addEventListener("click", handleLoadMoreClick);
+
+
+
+
+// Get the calendar grid element
+const calendarGrid = document.querySelector('.calendar-grid');
+
+// Get the current date
+const currentDate = new Date();
+
+// Get the number of days in the current month
+const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
+
+// Get the day of the week of the first day in the current month
+const firstDayOfWeek = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
+
+// Generate the calendar days
+for (let i = 0; i < firstDayOfWeek; i++) {
+  // Add empty cells for the days before the first day of the month
+  const emptyCell = document.createElement('div');
+  emptyCell.classList.add('calendar-cell');
+  calendarGrid.appendChild(emptyCell);
+}
+
+for (let day = 1; day <= daysInMonth; day++) {
+  // Create a cell for each day of the month
+  const cell = document.createElement('div');
+  cell.classList.add('calendar-cell');
+  cell.textContent = day;
+  calendarGrid.appendChild(cell);
+}
+
+
+// Get the calendar header element
+const calendarHeader = document.querySelector('.calendar-header h2');
+
+
+
+// Array of month names
+const monthNames = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'
+];
+
+// Set the heading to display the current month and year
+calendarHeader.textContent = `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`;
+
